@@ -1,17 +1,16 @@
-research_task:
+post_research_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
+    {language} Programlama Dili için {title} konusunda en güncel bilgileri araştırarak ve örnek kod parçaları oluşturmak.
+    Bu makale bilgileri örnek kod parçaları ile destekleyerek yazılmalıdır.
   expected_output: >
     A list with 10 bullet points of the most relevant information about {topic}
   agent: researcher
 
-reporting_task:
+post_write_task:
   description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    {language} Programlama Dili için {title} konusunda en güncel bilgileri araştırarak ve örnek kod parçaları oluşturmak.
+    Bu makale bilgileri örnek kod parçaları ile destekleyerek yazılmalıdır.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
+    Makale giriş gelişme sonuç kısımlarından oluşmalıdır. Giriş kısmında {topic} hakkında genel bilgiler verilmeli, gelişme kısmında 
+    {topic} hakkında detaylı bilgiler verilmeli ve sonuç kısmında {topic} hakkında genel bir değerlendirme yapılmalıdır.
   agent: reporting_analyst

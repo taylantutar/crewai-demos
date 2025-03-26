@@ -1,0 +1,99 @@
+**Python Programlama Dili için For Loop Hakkında Bilgiler**
+
+Giriş
+--------
+
+Python'da for loop, bir dizi öğe veya elemanları dizisi gibi, tek bir adımda işleme tabi tutulan yapının içinde dönen bir yapıdır. Python'daki en temel yapısı ise listedeki her elemanı işleme tabi tutmaktır.
+
+Gelişme
+---------
+
+1. **Basit For Loop:** En temel formdaki bir for loop'un yapısı şöyledir:
+
+```
+for değişken in seznam:
+    işlem
+```
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+for sayi in sayilar:
+    print(sayi)
+```
+
+2. **Break ve Continue Komutları:** For loop içinde break ve continue komutları kullanılarak döngüye girilenden veya dönen döngünün dışında bir yere gitmek mümkündür.
+ * Break: Döngüyü sona erdirir.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+for sayi in sayilar:
+    if sayi == 3:
+        break
+    print(sayi)
+```
+
+ * Continue: Döngünün bir sonraki adıma geçer.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+for sayi in sayilar:
+    if sayi % 2 == 0:
+        continue
+    print(sayi)
+```
+
+3. **For Loop ile Listedeki Öğeleri İşleme:** Dizideki her elemanı işleme tabi tutmak için for loop'u kullanabilirsiniz.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+for sayi in range(len(sayilar)):
+    print(sayilar[sayi])
+```
+
+4. **For Loop ile Dizideki Elemanları Birbirine Referans Verme:** Bir dizinin elemanlarını birbiriyle referans vererek işleme tabi tutabilirsiniz.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+for i in range(len(sayilar)):
+    sayilar[i] *= 2
+print(sayilar)
+```
+
+5. **For Loop ile Dizinin Her Elemanını Toplama veya Çıkarma:** Bir dizinin her elemanını topla veya çıkarma işlemini yapabilirsiniz.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+toplam = 0
+for sayi in sayilar:
+    toplam += sayi
+print(toplam)
+```
+
+6. **For Loop ile Dizinin Her Elemanını Kopyalama:** Bir dizinin her elemanını kopyalayabilirsiniz.
+
+Örnek:
+
+```python
+sayilar = [1, 2, 3, 4, 5]
+kopya_sayilar = []
+for sayi in sayilar:
+    kopya_sayilar.append(sayi)
+print(kopya_sayilar)
+```
+
+Sonuç
+-----
+
+Bu liste for loop hakkında en güncel bilgileri örnek kod parçaları ile destekleyen bir listeyi kapsamaktadır. For loop'un temel yapısı ve kullanım şekillerini anlamak için bu liste büyük fayda sağlayacaktır.
