@@ -10,6 +10,7 @@ from ttr03_flow.crews.poem_crew.poem_crew import PoemCrew
 
 class PoemState(BaseModel):
     sentence_count: int = 1
+    topic : str = ""
     poem: str = ""
 
 
@@ -17,24 +18,30 @@ class PoemFlow(Flow[PoemState]):
 
     @start()
     def generate_sentence_count(self):
-        print("Generating sentence count")
-        self.state.sentence_count = randint(1, 5)
+        print("Satır sayısı oluşturuluyor")
+        # self.state.sentence_count = randint(1, 5)
+        self.state.sentence_count = 10
 
     @listen(generate_sentence_count)
+    def generate_topic(self):
+        print("Konu oluşturuluyor")
+        self.state.topic = "Tunceli Şehri"
+
+    @listen(generate_topic)
     def generate_poem(self):
-        print("Generating poem")
+        print("Şiir oluşturuluyor")
         result = (
             PoemCrew()
             .crew()
-            .kickoff(inputs={"sentence_count": self.state.sentence_count})
+            .kickoff(inputs={"sentence_count": self.state.sentence_count, "topic": self.state.topic})
         )
 
-        print("Poem generated", result.raw)
+        print("Şiir oluşturuldu", result.raw)
         self.state.poem = result.raw
 
     @listen(generate_poem)
     def save_poem(self):
-        print("Saving poem")
+        print("Şiir kaydediliyor")
         with open("poem.txt", "w") as f:
             f.write(self.state.poem)
 

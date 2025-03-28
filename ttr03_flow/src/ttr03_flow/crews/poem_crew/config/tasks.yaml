@@ -1,7 +1,6 @@
 write_poem:
   description: >
-    Write a poem about how CrewAI is awesome.
-    Ensure the poem is engaging and adheres to the specified sentence count of {sentence_count}.
+    {topic} hakkında {sentence_count} satırdan oluşan bir şiir yaz. İşin içine biraz eğlence katmayı unutma.
   expected_output: >
-    A beautifully crafted poem about CrewAI, with exactly {sentence_count} sentences.
+    {topic} hakkında {sentence_count} satırdan oluşan bir şiir.
   agent: poem_writer
