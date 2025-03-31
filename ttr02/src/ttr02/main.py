@@ -2,8 +2,6 @@
 import sys
 import warnings
 
-from datetime import datetime
-
 from ttr02.crew import Ttr02
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
@@ -14,8 +12,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI LLMs',
-        'current_year': str(datetime.now().year)
+        'topic': 'Şarkıcı Volkan Konak'
     }
     
     try:
@@ -29,7 +26,7 @@ def train():
     Train the crew for a given number of iterations.
     """
     inputs = {
-        "topic": "AI LLMs"
+        "topic": "Şarkıcı Volkan Konak"
     }
     try:
         Ttr02().crew().train(n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs)
@@ -52,8 +49,7 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        "topic": "AI LLMs",
-        "current_year": str(datetime.now().year)
+        "topic": "Şarkıcı Volkan Konak"
     }
     try:
         Ttr02().crew().test(n_iterations=int(sys.argv[1]), openai_model_name=sys.argv[2], inputs=inputs)

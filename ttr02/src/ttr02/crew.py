@@ -1,5 +1,6 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import SerperDevTool
 
 @CrewBase
 class Ttr02():
@@ -15,33 +16,24 @@ class Ttr02():
             verbose=True
         )
 
-    @agent
-    def reporting_analyst(self) -> Agent:
-        return Agent(
-            config=self.agents_config['reporting_analyst'],
-            verbose=True
-        )
-
     @task
     def research_task(self) -> Task:
         return Task(
             config=self.tasks_config['research_task'],
-        )
-
-    @task
-    def reporting_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['reporting_task'],
-            output_file='report.md'
+            output_file='wikipost.txt'
         )
 
     @crew
     def crew(self) -> Crew:
         """Creates the Ttr02 crew"""
+
+            # Create tools
+        search_tool = SerperDevTool()
         
         return Crew(
             agents=self.agents, 
             tasks=self.tasks,
+            tools=[search_tool],
             process=Process.sequential,
             verbose=True,
         )
