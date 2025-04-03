@@ -1,0 +1,23 @@
+[project]
+name = "ttr04_tools"
+version = "0.1.0"
+description = "ttr04_tools using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.108.0,<1.0.0"
+]
+
+[project.scripts]
+ttr04_tools = "ttr04_tools.main:run"
+run_crew = "ttr04_tools.main:run"
+train = "ttr04_tools.main:train"
+replay = "ttr04_tools.main:replay"
+test = "ttr04_tools.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
