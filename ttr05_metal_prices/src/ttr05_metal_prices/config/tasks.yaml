@@ -1,0 +1,78 @@
+# Default tasks for the crew
+scrape_websites:
+  description: >
+    Sağlanan {website_urls} listesindeki her bir web sitesinden ham HTML içeriğini topla.
+    Her URL için ayrı ayrı içerik topla.
+  expected_output: >
+    Her bir URL için toplanan ham HTML içeriğinin bir listesi veya sözlüğü.
+    Örnek: {'url1': '<html>...</html>', 'url2': '<html>...</html>'}
+  agent: web_scraper_agent
+  human_input: false
+  async_execution: true # Birden fazla siteyi paralel olarak kazıyabilir
+
+extract_prices:
+  description: >
+    'scrape_websites' görevinin çıktısındaki HTML içeriklerini analiz et.
+    Her bir içerikten aşağıdaki altın ve gümüş türleri için fiyatları çıkar:
+    - 1 Gram Altın (TL)
+    - 10 Gram Altın (TL)
+    - 20 Gram Altın (TL)
+    - Çeyrek Altın (TL)
+    - Yarım Altın (TL)
+    - Tam Altın (TL)
+    - Ata Altın (TL)
+    - Ons Altın (USD)  # Eklendi
+    - Gümüş (TL/Gram veya TL/Ons)
+    Fiyatları site bazında gruplandır.
+  expected_output: >
+    Her site için çıkarılan altın ve gümüş fiyatlarını içeren yapılandırılmış bir veri (örneğin Python sözlüğü).
+    Fiyatı bulunamayan türler için 'Bulunamadı' veya benzeri bir değer kullanılabilir.
+    Örnek:
+    {
+      'https://site1.com': {
+        '1 Gram Altın': '2500 TL', '10 Gram Altın': '25000 TL', ..., 'Ons Altın': '2350 USD', 'Gümüş': '30 TL/Gram'
+      },
+      'https://site2.com': {
+        '1 Gram Altın': '2510 TL', 'Çeyrek Altın': '4100 TL', ..., 'Ons Altın': 'Bulunamadı', 'Gümüş': 'Bulunamadı'
+      }
+    }
+  agent: data_extractor_agent
+  human_input: false
+  context:
+    - scrape_websites # Bu görev, scrape_websites görevinin çıktısını kullanır
+
+write_report:
+  description: >
+    'extract_prices' görevinden alınan yapılandırılmış fiyat verilerini al.
+    Bu verileri okunabilir, site bazında gruplandırılmış bir metin raporuna formatla.
+    Formatlanmış raporu {output_filename} olarak belirtilen dosyaya yazmak için File Write Tool'u kullan.
+    Raporun başına tarih ve saat bilgisi ekle.
+  expected_output: >
+    Belirtilen {output_filename} dosyasına yazılmış, formatlanmış altın ve gümüş fiyatları raporu.
+    Örnek Rapor İçeriği:
+    ```
+    Metal Fiyat Raporu - 2025-04-04 14:35:00
+    ========================================
+
+    Site: https://site1.com
+    --------------------
+    1 Gram Altın: 2500 TL
+    10 Gram Altın: 25000 TL
+    ...
+    Ata Altın: 16500 TL
+    Ons Altın: 2350 USD
+    Gümüş: 30 TL/Gram
+
+    Site: https://site2.com
+    --------------------
+    1 Gram Altın: 2510 TL
+    Çeyrek Altın: 4100 TL
+    ...
+    Ata Altın: Bulunamadı
+    Ons Altın: Bulunamadı
+    Gümüş: Bulunamadı
+    ```
+  agent: report_writer_agent
+  human_input: false
+  context:
+    - extract_prices # Bu görev, extract_prices görevinin çıktısını kullanır
