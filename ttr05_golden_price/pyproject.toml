@@ -1,0 +1,23 @@
+[project]
+name = "ttr05_golden_price"
+version = "0.1.0"
+description = "ttr05_golden_price using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.108.0,<1.0.0"
+]
+
+[project.scripts]
+ttr05_golden_price = "ttr05_golden_price.main:run"
+run_crew = "ttr05_golden_price.main:run"
+train = "ttr05_golden_price.main:train"
+replay = "ttr05_golden_price.main:replay"
+test = "ttr05_golden_price.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
