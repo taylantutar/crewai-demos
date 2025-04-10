@@ -1,62 +1,55 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+# Import necessary tools, e.g., from crewai_tools
+from crewai_tools import ScrapeWebsiteTool # <-- Uncomment this line
 
-# If you want to run a snippet of code before or after the crew starts,
-# you can use the @before_kickoff and @after_kickoff decorators
-# https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+# If using tools, initialize them here
+scrape_tool = ScrapeWebsiteTool() # <-- Instantiate the tool
 
 @CrewBase
 class Ttr05GoldenPrice():
     """Ttr05GoldenPrice crew"""
-
-    # Learn more about YAML configuration files here:
-    # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
-    # Tasks: https://docs.crewai.com/concepts/tasks#yaml-configuration-recommended
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
-    # If you would like to add tools to your agents, you can learn more about it here:
-    # https://docs.crewai.com/concepts/agents#agent-tools
     @agent
-    def researcher(self) -> Agent:
+    def gold_scraper(self) -> Agent: # <-- Metot adı 'gold_scraper'
         return Agent(
-            config=self.agents_config['researcher'],
+            config=self.agents_config['gold_scraper_agent'],
+            tools=[scrape_tool], # <-- Add the tool to the agent
             verbose=True
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def report_formatter(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'],
+            config=self.agents_config['report_formatter_agent'],
             verbose=True
         )
 
-    # To learn more about structured task outputs,
-    # task dependencies, and task callbacks, check out the documentation:
-    # https://docs.crewai.com/concepts/tasks#overview-of-a-task
     @task
-    def research_task(self) -> Task:
+    def scrape_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'],
+            config=self.tasks_config['scrape_gold_price_task'],
+            agent=self.gold_scraper()
+            # Add context=[list_of_other_tasks] if this task depends on others
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def format_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'],
-            output_file='report.md'
+            config=self.tasks_config['format_report_task'],
+            agent=self.report_formatter(),
+            context=[self.scrape_task()], # Make this task depend on the scrape_task
+            output_file='gold_prices_report.md' # Ensure output file is set
         )
 
     @crew
     def crew(self) -> Crew:
         """Creates the Ttr05GoldenPrice crew"""
-        # To learn how to add knowledge sources to your crew, check out the documentation:
-        # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
-
         return Crew(
-            agents=self.agents, # Automatically created by the @agent decorator
-            tasks=self.tasks, # Automatically created by the @task decorator
+            agents=self.agents, # Should include gold_scraper and report_formatter
+            tasks=self.tasks,   # Should include scrape_task and format_task
             process=Process.sequential,
             verbose=True,
-            # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
         )

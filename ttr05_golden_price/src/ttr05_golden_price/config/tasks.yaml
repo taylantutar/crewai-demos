@@ -1,17 +1,41 @@
-research_task:
+scrape_gold_price_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
+    Visit each website in the provided list: {website_urls}.
+    For each website, find and extract the current ounce gold price (in USD),
+    gram gold price (in TRY), and Ata Gold price (in TRY).
+    Use the scraping tool provided to fetch website content.
+    Return the extracted data clearly associating prices with their respective websites.
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    A structured data format (like a Python dictionary or list of dictionaries) containing:
+    - Website URL
+    - Ounce Gold Price (USD)
+    - Gram Gold Price (TRY)
+    - Ata Gold Price (TRY)
+    for each successfully scraped website. Handle cases where data might be missing or not found.
+    Ensure gram and Ata gold prices are in TRY.
+  agent: gold_scraper
 
-reporting_task:
+format_report_task:
   description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    Take the scraped gold price data (ounce USD, gram TRY, Ata TRY) from the previous task.
+    Organize the data, grouping prices by website.
+    Format the results into a clean Markdown report.
+    Include sections for each website, clearly listing the Ounce Gold (USD), Gram Gold (TRY),
+    and Ata Gold (TRY) prices found.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    A Markdown formatted report summarizing the gold prices from each website.
+    Example:
+    ## Gold Prices Report - April 10, 2025
+
+    **Website: [URL 1]**
+    - Ounce Gold (USD): $[Price]
+    - Gram Gold (TRY): [Price] TL
+    - Ata Gold (TRY): [Price] TL
+
+    **Website: [URL 2]**
+    - Ounce Gold (USD): $[Price]
+    - Gram Gold (TRY): [Price] TL
+    - Ata Gold (TRY): [Price] TL
+    ...
+  agent: report_formatter
+  output_file: 'gold_prices_report.md'
